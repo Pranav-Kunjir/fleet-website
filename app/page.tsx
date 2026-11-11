@@ -1,68 +1,178 @@
-import Image from "next/image";
+import Navbar, {
+  BrandLogo,
+  type NavItem,
+  type NavbarAction,
+} from "@/components/navbar/Navbar";
+import Hero from "@/components/hero/Hero";
+import AboutSection from "@/components/about/AboutSection";
+import RecentEventsSection, {
+  type EventSlideItem,
+} from "@/components/events/RecentEventsSection";
+import QuoteManifestoSection from "@/components/manifesto/QuoteManifestoSection";
+import type { CursorFrameItem } from "@/components/ui/CursorImageFrame";
+
+const FLEET_INSTAGRAM_URL = "https://www.instagram.com/fleet.pune/";
+
+const NAV_ITEMS: NavItem[] = [
+  { label: "ABOUT", href: "#about" },
+  { label: "RUNS", href: "#runs" },
+  { label: "COMMUNITY", href: FLEET_INSTAGRAM_URL, external: true },
+];
+
+const NAV_ACTION: NavbarAction = {
+  label: "JOIN US",
+  href: FLEET_INSTAGRAM_URL,
+  showIndicator: true,
+  external: true,
+};
+
+/**
+ * Media frames cycled inside the cursor-following hero frame.
+ * Supports `videoSrc` (.mp4/.webm looping muted with zero controls)
+ * and `imageSrc` (.gif, .jpg, .png, .webp, .avif).
+ */
+const HERO_FRAMES: CursorFrameItem[] = [
+  {
+    id: "fleet-video-1",
+    alt: "Runners in motion across the city",
+    videoSrc:
+      "https://assets.mixkit.co/videos/preview/mixkit-man-running-in-the-street-at-sunrise-40839-large.mp4",
+    posterSrc:
+      "https://images.unsplash.com/photo-1552674605-db6ffd4facb5?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: "fleet-frame-2",
+    alt: "Runners in motion on city streets",
+    imageSrc:
+      "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: "fleet-video-2",
+    alt: "Pace crew running on track",
+    videoSrc:
+      "https://assets.mixkit.co/videos/preview/mixkit-woman-running-above-the-camera-on-a-running-track-32807-large.mp4",
+    posterSrc:
+      "https://images.unsplash.com/photo-1571008887538-b36bb32f4571?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: "fleet-frame-4",
+    alt: "Urban pace crew running together",
+    imageSrc:
+      "https://images.unsplash.com/photo-1486218119243-13883505764c?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: "fleet-frame-5",
+    alt: "Post-run coffee and social club",
+    imageSrc:
+      "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80",
+  },
+];
+
+/**
+ * Last 3 recent Fleet Pune events displayed in the scroll-peeling stack.
+ */
+const RECENT_EVENTS: EventSlideItem[] = [
+  {
+    id: "kalyani-nagar-sunrise",
+    title: "KALYANI NAGAR 5K",
+    subtitle: "SUNDAY SUNRISE SESSION · PUNE",
+    frameColor: "#fee897",
+    imageSrc:
+      "https://images.unsplash.com/photo-1552674605-db6ffd4facb5?auto=format&fit=crop&w=1400&q=85",
+    href: FLEET_INSTAGRAM_URL,
+    cursorText: "VIEW EVENT →",
+  },
+  {
+    id: "koregaon-coffee-rave",
+    title: "KP COFFEE RUN",
+    subtitle: "5K PACE + SPECIALTY BREW HANGOUT",
+    frameColor: "#0038ff",
+    imageSrc:
+      "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&w=1400&q=85",
+    href: FLEET_INSTAGRAM_URL,
+    cursorText: "VIEW EVENT →",
+  },
+  {
+    id: "fc-road-night-miles",
+    title: "MIDNIGHT MILES",
+    subtitle: "CITY LIGHTS 7K · FC ROAD TO BANER",
+    frameColor: "#f45034",
+    imageSrc:
+      "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1400&q=85",
+    href: FLEET_INSTAGRAM_URL,
+    cursorText: "VIEW EVENT →",
+  },
+];
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="min-h-screen flex flex-col bg-[#f3f3f1]">
+      <Navbar
+        brand={<BrandLogo text="Fleet Pune" />}
+        items={NAV_ITEMS}
+        action={NAV_ACTION}
+      />
+      <main className="flex-1 flex flex-col">
+        <Hero
+          subtitleLines={["Start anywhere,", "celebrate together"]}
+          headlineBold="PUTS PUNE"
+          headlineLight="CREW IN"
+          headlineSerif="MOVEMENT"
+          frames={HERO_FRAMES}
+          cta={{
+            label: "Join the fleet",
+            href: "#about",
+            external: false,
+          }}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+
+        <AboutSection
+          id="about"
+          eyebrow="Who we are"
+          headingSans="THE RUNNERS OF"
+          headingSerif="FLEET PUNE"
+          descriptionLines={[
+            "No pressure, no pace gatekeeping. We are",
+            "a Pune run club built on movement and coffee.",
+            "Show up once, before you even overthink it.",
+          ]}
+          cta={{
+            label: "MORE ABOUT US",
+            href: FLEET_INSTAGRAM_URL,
+            external: true,
+          }}
+        />
+
+        <RecentEventsSection
+          id="runs"
+          eyebrowLines={[
+            "Not to be missed, made to be shared.",
+            "A glimpse into our recent runs.",
+          ]}
+          headingSans="RECENT"
+          headingSerif="EVENTS"
+          events={RECENT_EVENTS}
+          cta={{
+            label: "VIEW ALL EVENTS",
+            href: FLEET_INSTAGRAM_URL,
+            external: true,
+            bgColor: "#f472c4",
+            textColor: "#111111",
+          }}
+        />
+
+        <QuoteManifestoSection
+          id="manifesto"
+          quoteLines={[
+            "WE WANT PUNE TO",
+            "REMEMBER US FOR",
+            "MORE THAN MILES",
+          ]}
+          subtitleLines={[
+            "More than paces, more than distance, more than the run itself.",
+            "Writing a story that outlasts every Sunday, every season, every era.",
+          ]}
+        />
       </main>
     </div>
   );
