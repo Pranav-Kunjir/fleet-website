@@ -34,6 +34,57 @@ function getRandomVariantIndex(excludeIndex: number): number {
   return next;
 }
 
+/**
+ * Smoothly scrolls the window to an in-page hash anchor (#about, #runs, #manifesto)
+ * or top of page ("/") using an eased requestAnimationFrame curve.
+ */
+export function smoothScrollToHref(
+  e: React.MouseEvent<HTMLAnchorElement>,
+  href: string
+) {
+  if (href === "/") {
+    e.preventDefault();
+    animateWindowScrollTo(0, 850);
+    window.history.pushState(null, "", "/");
+    return;
+  }
+
+  if (href.startsWith("#") && href.length > 1) {
+    const id = href.slice(1);
+    const targetEl = document.getElementById(id);
+    if (targetEl) {
+      e.preventDefault();
+      const targetY =
+        targetEl.getBoundingClientRect().top + window.scrollY;
+      animateWindowScrollTo(targetY, 850);
+      window.history.pushState(null, "", href);
+    }
+  }
+}
+
+function animateWindowScrollTo(targetY: number, durationMs = 850) {
+  const startY = window.scrollY;
+  const delta = targetY - startY;
+  if (Math.abs(delta) < 2) return;
+
+  const startTime = performance.now();
+
+  const easeInOutCubic = (t: number) =>
+    t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+  const step = (now: number) => {
+    const elapsed = now - startTime;
+    const progress = Math.min(1, elapsed / durationMs);
+    const eased = easeInOutCubic(progress);
+    window.scrollTo(0, startY + delta * eased);
+    if (progress < 1) {
+      requestAnimationFrame(step);
+    }
+  };
+
+  requestAnimationFrame(step);
+}
+
 export interface SquigglyUnderlineProps {
   /** Initial variant index before the first hover randomizes it */
   variant?: number;
@@ -120,7 +171,7 @@ export function useSquigglyHover(alwaysVisible = false, initialVariant = 0) {
 export default function SquigglyUnderline({
   variant = 0,
   alwaysVisible = false,
-  color = "#0033ff",
+  color = "#FF4438",
   strokeWidth = 10,
   className = "",
   pathRef,

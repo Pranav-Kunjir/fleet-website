@@ -203,8 +203,16 @@ export default function CursorImageFrame({
       const weightedX = (clientX - centerX) * followStrength;
       const weightedY = (clientY - centerY) * followStrength;
 
-      // Hide floating frame when hovering interactive buttons/links
-      if (target instanceof Element && target.closest(blockSelector)) {
+      // Smoothly hide frame when cursor approaches the top or bottom boundary of the hero
+      const distFromBottom = rect.bottom - clientY;
+      const distFromTop = clientY - rect.top;
+      const nearVerticalEdge = distFromBottom < 80 || distFromTop < 72;
+
+      // Hide floating frame when hovering interactive buttons/links or near section seam
+      if (
+        nearVerticalEdge ||
+        (target instanceof Element && target.closest(blockSelector))
+      ) {
         if (!state.isBlocked) {
           state.isBlocked = true;
           state.targetOpacity = 0;

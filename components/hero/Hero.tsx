@@ -132,7 +132,7 @@ export default function Hero({
       ref={heroRef}
       data-cursor-cards=""
       data-cursor-cards-threshold={cursorThreshold}
-      className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 pb-12 pt-24 select-none overflow-hidden"
+      className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 pb-16 pt-24 bg-transparent text-[#111111] select-none overflow-x-clip"
     >
       {/* Cursor-following image frame that cycles frames as cursor moves */}
       <CursorImageFrame

@@ -37,13 +37,13 @@ export function RunClubSticker({
       role="img"
       aria-label={`${monogram} ${line1} ${line2} sticker`}
     >
-      {/* Die-cut pink sticker base under the bird */}
+      {/* Die-cut coral-red sticker base under the bird */}
       <path
         d="M84 52 C74 48 64 49 60 42 C56 35 66 28 76 29 C85 30 95 24 101 14 C105 6 115 2 124 6 C133 10 134 20 142 18 C150 16 157 22 155 31 C153 39 144 45 140 50 C145 55 148 62 145 68 L82 72 Z"
-        fill="#f59ce3"
+        fill="#FF4438"
       />
 
-      {/* Die-cut pink rounded rectangle base for text */}
+      {/* Die-cut coral-red rounded rectangle base for text */}
       <rect
         x="8"
         y="62"
@@ -51,12 +51,12 @@ export function RunClubSticker({
         height="98"
         rx="18"
         transform="rotate(-4 115 111)"
-        fill="#f59ce3"
+        fill="#FF4438"
       />
 
       {/* Running bird illustration on top */}
       <g
-        stroke="#111111"
+        stroke="#0a0a0c"
         strokeWidth="3.2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -64,16 +64,16 @@ export function RunClubSticker({
         {/* Bird body & tail */}
         <path
           d="M68 41 C84 41 96 36 106 24 C110 18 112 11 118 11 C124 11 126 17 125 23 C124 31 131 38 124 46 C116 54 96 53 84 47 Z"
-          fill="#f59ce3"
+          fill="#FF4438"
         />
         {/* Wing raised */}
         <path
           d="M112 33 C122 25 135 20 145 23 C143 30 138 35 131 38 C137 38 142 40 144 44 C136 47 125 46 116 42"
-          fill="#f59ce3"
+          fill="#FF4438"
         />
         {/* Beak & eye */}
-        <path d="M125 15 L133 18 L125 21" fill="#111111" />
-        <circle cx="119" cy="16" r="1.8" fill="#111111" stroke="none" />
+        <path d="M125 15 L133 18 L125 21" fill="#0a0a0c" />
+        <circle cx="119" cy="16" r="1.8" fill="#0a0a0c" stroke="none" />
         {/* Tail feathers */}
         <path d="M68 41 L58 38 M71 44 L61 45" />
         {/* Running legs */}
@@ -251,9 +251,9 @@ export default function InteractiveCollage({
               {/* Subtle club tee graphic overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent flex items-center justify-center p-4 text-center">
                 <span className="font-sans font-black uppercase text-white text-[13px] sm:text-[17px] leading-[0.95] tracking-tight -rotate-12 drop-shadow">
-                  NO EXCUSES,
+                  WEEKEND PLANS,
                   <br />
-                  JUST MILES
+                  FIXED BY FLEET
                 </span>
               </div>
             </div>

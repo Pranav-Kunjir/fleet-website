@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 78" fill="none">
+  <!-- Left Wing (Stylized F) -->
+  <path
+    d="M48.4 73V32.5C48.4 23.2 42.8 19.8 35.5 17.1L4 5.5L11.6 22.8L31.8 34.2L15.8 29.6L22.6 42.2L48.4 73Z"
+    fill="#FF4438"
+  />
+  <!-- Right Wing (Mirrored Stylized F) -->
+  <path
+    d="M51.6 73V32.5C51.6 23.2 57.2 19.8 64.5 17.1L96 5.5L88.4 22.8L68.2 34.2L84.2 29.6L77.4 42.2L51.6 73Z"
+    fill="#FF4438"
+  />
+</svg>

@@ -36,7 +36,7 @@ export default function SlideArrowButton({
   label = "MORE ABOUT US",
   href = "https://www.instagram.com/fleet.pune/",
   external,
-  bgColor = "#0033ff",
+  bgColor = "#FF4438",
   textColor = "#ffffff",
   className = "",
 }: SlideArrowButtonProps) {

@@ -21,7 +21,7 @@ function DoubleQuoteIcon() {
       viewBox="0 0 116 42"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="w-[68px] sm:w-[84px] md:w-[96px] h-auto mx-auto text-[#6f675f]"
+      className="w-[68px] sm:w-[84px] md:w-[96px] h-auto mx-auto text-[#FF4438]"
       aria-hidden="true"
     >
       {/* Left opening quote “ */}
@@ -38,6 +38,8 @@ function DoubleQuoteIcon() {
     </svg>
   );
 }
+
+const INITIAL_ZOOM_SCALE = 3.95;
 
 export default function QuoteManifestoSection({
   id = "manifesto",
@@ -110,28 +112,33 @@ export default function QuoteManifestoSection({
         (state.targetProgress - state.currentProgress) * 0.12;
       const p = state.currentProgress;
 
-      // 1. Full-bleed zoom-out: starts at scale(2.15) filling the entire viewport
-      //    and zooms smoothly down to scale(1.0) between p = 0 and p = 0.58
-      const zoomNorm = clamp(p / 0.58, 0, 1);
-      const zoomEased = 1 - Math.pow(1 - zoomNorm, 2.4);
-      const scale = 2.15 - 1.15 * zoomEased;
+      // 1. Massive full-bleed zoom-out:
+      //    Holds at scale(3.95) for the first ~22% of scroll so the giant full-screen
+      //    dot-matrix wall can be viewed before zooming down to scale(1.0) (p: 0.22 -> 0.74)
+      const zoomNorm = clamp((p - 0.22) / 0.52, 0, 1);
+      const zoomEased = 1 - Math.pow(1 - zoomNorm, 2.2);
+      const scale =
+        INITIAL_ZOOM_SCALE - (INITIAL_ZOOM_SCALE - 1) * zoomEased;
+      stage.style.opacity = "1";
       stage.style.transform = `translate3d(-50%, -50%, 0) scale(${scale.toFixed(
         4
       )})`;
 
       // 2. Staggered word-by-word animation:
-      //    - Stage A (p: 0 -> 0.35): each word's dot-matrix pattern lights up and slides in slightly
-      //    - Stage B (p: 0.26 -> 0.84): each word morphs one-by-one from dot-matrix to solid #bdb3a5
+      //    - Stage A (p: 0 -> 0.38): while held at full-screen 3.95x zoom, the dot-matrix words
+      //      are already visible and sweep to full brightness word-by-word
+      //    - Stage B (p: 0.44 -> 0.88): as zoom settles, each word morphs one-by-one
+      //      from the dot-matrix pattern into solid chiseled lettering
       for (let i = 0; i < totalWords; i++) {
         const wordRatio = totalWords > 1 ? i / (totalWords - 1) : 0;
 
-        // Dot reveal window for word i
-        const dotStart = wordRatio * 0.18;
-        const dotProgress = clamp((p - dotStart) / 0.18, 0, 1);
+        // Word-by-word dot-matrix sweep while zoomed in
+        const dotStart = wordRatio * 0.24;
+        const dotProgress = clamp((p - dotStart) / 0.22, 0, 1);
 
-        // Solid fill window for word i (staggered across scroll)
-        const solidStart = 0.26 + wordRatio * 0.44;
-        const solidProgress = clamp((p - solidStart) / 0.16, 0, 1);
+        // Word-by-word solid fill as zoom settles
+        const solidStart = 0.44 + wordRatio * 0.34;
+        const solidProgress = clamp((p - solidStart) / 0.14, 0, 1);
         const solidEased =
           solidProgress * solidProgress * (3 - 2 * solidProgress);
 
@@ -140,17 +147,23 @@ export default function QuoteManifestoSection({
         const solidEl = solidWordRefs.current[i];
 
         if (wrapEl) {
-          const yLift = (1 - dotProgress) * 14;
+          const yLift = (1 - dotProgress) * 4;
           wrapEl.style.transform = `translate3d(0, ${yLift.toFixed(1)}px, 0)`;
         }
 
         if (dotEl) {
-          // Visible as crisp LED dots initially, then crossfades as solid layer completes
-          const dotAlpha = clamp(
-            (0.28 + 0.72 * dotProgress) * (1 - solidEased * 0.85),
-            0,
-            1
-          );
+          // Keep dots visible right from the start (minimum 0.38 alpha across the whole word,
+          // with a bright 1.0 wave sweeping left-to-right across each word)
+          const sweepPct = 35 + dotProgress * 100;
+          const solidEdge = Math.max(0, sweepPct - 30).toFixed(1);
+          const fadeEdge = sweepPct.toFixed(1);
+          const maskGrad = `linear-gradient(90deg, rgba(0,0,0,1) ${solidEdge}%, rgba(0,0,0,0.65) ${(
+            sweepPct - 12
+          ).toFixed(1)}%, rgba(0,0,0,0.38) ${fadeEdge}%)`;
+
+          dotEl.style.webkitMaskImage = maskGrad;
+          dotEl.style.maskImage = maskGrad;
+          const dotAlpha = clamp(1 - solidEased * 0.9, 0, 1);
           dotEl.style.opacity = dotAlpha.toFixed(3);
         }
 
@@ -163,21 +176,21 @@ export default function QuoteManifestoSection({
 
       // 3. Top quotation mark (“ ”) reveal
       if (quoteIconRef.current) {
-        const iconProg = clamp((p - 0.48) / 0.22, 0, 1);
+        const iconProg = clamp((p - 0.56) / 0.2, 0, 1);
         quoteIconRef.current.style.opacity = iconProg.toFixed(3);
         quoteIconRef.current.style.transform = `translate3d(0, ${(
           (1 - iconProg) *
-          16
+          14
         ).toFixed(1)}px, 0) scale(${(0.9 + 0.1 * iconProg).toFixed(3)})`;
       }
 
       // 4. Bottom 2-line subtitle reveal
       if (subtitleRef.current) {
-        const subProg = clamp((p - 0.6) / 0.24, 0, 1);
+        const subProg = clamp((p - 0.66) / 0.22, 0, 1);
         subtitleRef.current.style.opacity = (subProg * 0.88).toFixed(3);
         subtitleRef.current.style.transform = `translate3d(-50%, ${(
           (1 - subProg) *
-          18
+          16
         ).toFixed(1)}px, 0)`;
       }
 
@@ -200,37 +213,19 @@ export default function QuoteManifestoSection({
     <section
       ref={sectionRef}
       id={id}
-      className="relative w-full h-[320vh] bg-[#161120] text-[#bdb3a5] select-none"
+      className="relative w-full h-[360vh] bg-transparent text-[#d5cdc0] select-none"
     >
       {/* Sticky Full-Screen Viewport */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        {/* Subtle tactile film-grain noise texture matching jjettas.com */}
-        <svg
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 w-full h-full opacity-[0.16] mix-blend-overlay z-10"
-        >
-          <filter id="manifestoGrain">
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0.82"
-              numOctaves="3"
-              stitchTiles="stitch"
-            />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#manifestoGrain)" />
-        </svg>
-
-        {/* Radial atmospheric vignette */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(circle_at_center,transparent_25%,rgba(8,5,14,0.55)_100%)]"
-        />
 
         {/* Zooming & Word-Animating Center Stage */}
         <div
           ref={quoteStageRef}
           className="absolute left-1/2 top-1/2 z-20 text-center w-max max-w-none will-change-transform origin-center"
-          style={{ transform: "translate3d(-50%, -50%, 0) scale(2.15)" }}
+          style={{
+            opacity: 1,
+            transform: `translate3d(-50%, -50%, 0) scale(${INITIAL_ZOOM_SCALE})`,
+          }}
         >
           {/* Top Quotation Marks “ ” */}
           <div
@@ -241,7 +236,7 @@ export default function QuoteManifestoSection({
             <DoubleQuoteIcon />
           </div>
 
-          {/* 3-Line Display Quote with Dot-Matrix -> Solid Word-by-Word Morph */}
+          {/* 3-Line Display Quote with Very Zoomed Dot-Matrix -> Solid Word-by-Word Morph */}
           <h2 className="font-condensed font-bold uppercase text-[13.5vw] sm:text-[11.2vw] lg:text-[138px] xl:text-[154px] leading-[0.84] tracking-[-0.01em] whitespace-nowrap">
             {parsedLines.map((words, lineIdx) => (
               <span
@@ -257,7 +252,7 @@ export default function QuoteManifestoSection({
                     }}
                     className="relative inline-block mx-[0.12em] will-change-transform"
                   >
-                    {/* Layer 1: LED Dot-Matrix Word */}
+                    {/* Layer 1: LED Dot-Matrix Word (with fine 3.4px pitch so at 3.95x zoom it forms crisp stadium dots) */}
                     <span
                       ref={(el) => {
                         dotWordRefs.current[globalIndex] = el;
@@ -265,8 +260,8 @@ export default function QuoteManifestoSection({
                       aria-hidden="true"
                       style={{
                         backgroundImage:
-                          "radial-gradient(circle, #c4baac 1.25px, transparent 1.5px)",
-                        backgroundSize: "4.2px 4.2px",
+                          "radial-gradient(circle, #d5cdc0 1.05px, transparent 1.25px)",
+                        backgroundSize: "3.4px 3.4px",
                         WebkitBackgroundClip: "text",
                         backgroundClip: "text",
                         WebkitTextFillColor: "transparent",
@@ -286,7 +281,7 @@ export default function QuoteManifestoSection({
                         opacity: 0,
                         clipPath: "inset(-6% 100% -6% 0%)",
                       }}
-                      className="absolute inset-0 block text-[#bdb3a5] will-change-[clip-path,opacity]"
+                      className="absolute inset-0 block text-[#d5cdc0] will-change-[clip-path,opacity]"
                     >
                       {word}
                     </span>
@@ -303,9 +298,9 @@ export default function QuoteManifestoSection({
             ref={subtitleRef}
             style={{
               opacity: 0,
-              transform: "translate3d(-50%, 18px, 0)",
+              transform: "translate3d(-50%, 16px, 0)",
             }}
-            className="font-sans text-[13.5px] sm:text-[15px] md:text-[16px] leading-[1.6] text-[#F7F3EF] absolute top-[calc(100%+2rem)] left-1/2 w-max max-w-[min(34em,88vw)] whitespace-normal will-change-transform"
+            className="font-sans text-[13.5px] sm:text-[15px] md:text-[16px] leading-[1.6] text-[#F5F3EF] absolute top-[calc(100%+2rem)] left-1/2 w-max max-w-[min(34em,88vw)] whitespace-normal will-change-transform"
           >
             {subtitleLines.map((line, idx) => (
               <span key={idx} className="block">

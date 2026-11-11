@@ -77,7 +77,7 @@ function ScrollSpinBadge({
       ref={badgeRef}
       data-featured-stack-badge=""
       aria-hidden="true"
-      className="hidden sm:flex fixed-or-absolute right-6 bottom-6 md:right-8 md:bottom-8 w-[88px] h-[88px] md:w-[104px] md:h-[104px] rounded-full bg-[#9db2ff] text-[#111111] items-center justify-center shadow-lg select-none pointer-events-none z-30 will-change-transform"
+      className="hidden sm:flex fixed-or-absolute right-6 bottom-6 md:right-8 md:bottom-8 w-[88px] h-[88px] md:w-[104px] md:h-[104px] rounded-full bg-[#FF4438] text-[#0a0a0c] items-center justify-center shadow-lg select-none pointer-events-none z-30 will-change-transform"
       style={{ position: "absolute" }}
     >
       <svg viewBox="0 0 120 120" className="w-full h-full">
@@ -301,7 +301,7 @@ export default function RecentEventsSection({
       data-nav-theme="dark"
       data-featured-stack=""
       style={{ height: `${Math.max(2, events.length) * 115}vh` }}
-      className="relative w-full bg-[#121212] text-white select-none"
+      className="relative w-full bg-transparent text-[#F5F3EF] select-none"
     >
       {/* Sticky Pinned Viewport */}
       <div
@@ -317,7 +317,7 @@ export default function RecentEventsSection({
             hoveredCursorText ? "opacity-100" : "opacity-0"
           }`}
         >
-          <div className="bg-white text-[#0033ff] rounded-full px-3.5 py-1.5 shadow-md overflow-hidden max-w-[128px] whitespace-nowrap">
+          <div className="bg-[#0a0a0c] text-[#FF4438] border border-[#FF4438]/40 rounded-full px-3.5 py-1.5 shadow-md overflow-hidden max-w-[128px] whitespace-nowrap">
             <div className="inline-flex items-center gap-3 text-[11px] font-extrabold uppercase tracking-tight animate-pulse">
               <span>{hoveredCursorText ?? "VIEW EVENT →"}</span>
               <span>{hoveredCursorText ?? "VIEW EVENT →"}</span>

@@ -9,19 +9,24 @@ import RecentEventsSection, {
   type EventSlideItem,
 } from "@/components/events/RecentEventsSection";
 import QuoteManifestoSection from "@/components/manifesto/QuoteManifestoSection";
+import Footer from "@/components/footer/Footer";
+import PageThemeCanvas from "@/components/ui/PageThemeCanvas";
 import type { CursorFrameItem } from "@/components/ui/CursorImageFrame";
 
+const FLEET_WHATSAPP_URL = "https://chat.whatsapp.com/JjWiqqEtATd4FxIgWjf61k";
+const FLEET_AROUNDU_URL = "https://aroundu.in/club/fleet-pune";
 const FLEET_INSTAGRAM_URL = "https://www.instagram.com/fleet.pune/";
 
 const NAV_ITEMS: NavItem[] = [
   { label: "ABOUT", href: "#about" },
-  { label: "RUNS", href: "#runs" },
-  { label: "COMMUNITY", href: FLEET_INSTAGRAM_URL, external: true },
+  { label: "EVENTS", href: "#runs" },
+  { label: "MANIFESTO", href: "#manifesto" },
+  { label: "AROUNDU", href: FLEET_AROUNDU_URL, external: true },
 ];
 
 const NAV_ACTION: NavbarAction = {
-  label: "JOIN US",
-  href: FLEET_INSTAGRAM_URL,
+  label: "JOIN WHATSAPP",
+  href: FLEET_WHATSAPP_URL,
   showIndicator: true,
   external: true,
 };
@@ -42,13 +47,13 @@ const HERO_FRAMES: CursorFrameItem[] = [
   },
   {
     id: "fleet-frame-2",
-    alt: "Runners in motion on city streets",
+    alt: "Koregaon Park 7 AM 3K community run",
     imageSrc:
       "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&w=800&q=80",
   },
   {
     id: "fleet-video-2",
-    alt: "Pace crew running on track",
+    alt: "Pace crew running together",
     videoSrc:
       "https://assets.mixkit.co/videos/preview/mixkit-woman-running-above-the-camera-on-a-running-track-32807-large.mp4",
     posterSrc:
@@ -56,13 +61,13 @@ const HERO_FRAMES: CursorFrameItem[] = [
   },
   {
     id: "fleet-frame-4",
-    alt: "Urban pace crew running together",
+    alt: "Football and turf sports community in Pune",
     imageSrc:
-      "https://images.unsplash.com/photo-1486218119243-13883505764c?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=800&q=80",
   },
   {
     id: "fleet-frame-5",
-    alt: "Post-run coffee and social club",
+    alt: "Weekend cricket and social meetup",
     imageSrc:
       "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80",
   },
@@ -73,54 +78,61 @@ const HERO_FRAMES: CursorFrameItem[] = [
  */
 const RECENT_EVENTS: EventSlideItem[] = [
   {
-    id: "kalyani-nagar-sunrise",
-    title: "KALYANI NAGAR 5K",
-    subtitle: "SUNDAY SUNRISE SESSION · PUNE",
-    frameColor: "#fee897",
+    id: "kp-inaugural-3k-run",
+    title: "KP 3K RUN · WAGHISKAR GARDEN",
+    subtitle: "1ST NOVEMBER · 7:00 AM · KOREGAON PARK",
+    frameColor: "#FF4438",
     imageSrc:
       "https://images.unsplash.com/photo-1552674605-db6ffd4facb5?auto=format&fit=crop&w=1400&q=85",
-    href: FLEET_INSTAGRAM_URL,
-    cursorText: "VIEW EVENT →",
+    href: FLEET_AROUNDU_URL,
+    cursorText: "JOIN ON AROUNDU →",
   },
   {
-    id: "koregaon-coffee-rave",
-    title: "KP COFFEE RUN",
-    subtitle: "5K PACE + SPECIALTY BREW HANGOUT",
-    frameColor: "#0038ff",
+    id: "weekend-turf-football",
+    title: "WEEKEND TURF FOOTBALL",
+    subtitle: "BEYOND SPORTS · PUNE 5V5 & 7V7 SESSIONS",
+    frameColor: "#F5F3EF",
     imageSrc:
-      "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&w=1400&q=85",
-    href: FLEET_INSTAGRAM_URL,
-    cursorText: "VIEW EVENT →",
+      "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=1400&q=85",
+    href: FLEET_WHATSAPP_URL,
+    cursorText: "JOIN WHATSAPP →",
   },
   {
-    id: "fc-road-night-miles",
-    title: "MIDNIGHT MILES",
-    subtitle: "CITY LIGHTS 7K · FC ROAD TO BANER",
-    frameColor: "#f45034",
+    id: "sunday-box-cricket-social",
+    title: "BOX CRICKET & COFFEE",
+    subtitle: "COME ALONE OR WITH A FRIEND · PUNE",
+    frameColor: "#fee897",
     imageSrc:
-      "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1400&q=85",
+      "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=1400&q=85",
     href: FLEET_INSTAGRAM_URL,
-    cursorText: "VIEW EVENT →",
+    cursorText: "VIEW ON IG →",
   },
 ];
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col bg-[#f3f3f1]">
+    <div className="relative min-h-screen flex flex-col">
+      {/* Single continuous background canvas: Light (#f3f3f1) for Sections 1-2, Dark (#0d0a12) for Sections 3-4 + Footer */}
+      <PageThemeCanvas darkTriggerId="runs" />
+
       <Navbar
-        brand={<BrandLogo text="Fleet Pune" />}
+        brand={<BrandLogo />}
         items={NAV_ITEMS}
         action={NAV_ACTION}
       />
-      <main className="flex-1 flex flex-col">
+
+      <main className="relative z-10 flex-1 flex flex-col">
         <Hero
-          subtitleLines={["Start anywhere,", "celebrate together"]}
+          subtitleLines={[
+            "Filling your weekend plan holes —",
+            "Running, football, cricket & community",
+          ]}
           headlineBold="PUTS PUNE"
-          headlineLight="CREW IN"
+          headlineLight="SPORTS IN"
           headlineSerif="MOVEMENT"
           frames={HERO_FRAMES}
           cta={{
-            label: "Join the fleet",
+            label: "Show up with Fleet",
             href: "#about",
             external: false,
           }}
@@ -128,52 +140,64 @@ export default function Home() {
 
         <AboutSection
           id="about"
-          eyebrow="Who we are"
-          headingSans="THE RUNNERS OF"
+          eyebrow="Why we started Fleet"
+          headingSans="BEYOND SPORTS AT"
           headingSerif="FLEET PUNE"
           descriptionLines={[
-            "No pressure, no pace gatekeeping. We are",
-            "a Pune run club built on movement and coffee.",
-            "Show up once, before you even overthink it.",
+            "We all have a sport we grew up playing — then life happens,",
+            "and you stop finding the people to play that sport with.",
+            "Fleet is Pune's sporting community scaling across running, football & cricket.",
+            "Come alone or with a friend — showing up might create a lifetime of memories.",
           ]}
           cta={{
-            label: "MORE ABOUT US",
-            href: FLEET_INSTAGRAM_URL,
+            label: "JOIN WHATSAPP CREW",
+            href: FLEET_WHATSAPP_URL,
             external: true,
+            bgColor: "#FF4438",
+            textColor: "#ffffff",
+          }}
+          secondaryCta={{
+            label: "CLUB ON AROUNDU",
+            href: FLEET_AROUNDU_URL,
+            external: true,
+            bgColor: "#111111",
+            textColor: "#ffffff",
           }}
         />
 
         <RecentEventsSection
           id="runs"
           eyebrowLines={[
-            "Not to be missed, made to be shared.",
-            "A glimpse into our recent runs.",
+            "Come alone or with a friend, leave with a lot of memories.",
+            "From our 7:00 AM Koregaon Park 3K to multi-sport weekends.",
           ]}
           headingSans="RECENT"
           headingSerif="EVENTS"
           events={RECENT_EVENTS}
           cta={{
-            label: "VIEW ALL EVENTS",
-            href: FLEET_INSTAGRAM_URL,
+            label: "EXPLORE ON AROUNDU",
+            href: FLEET_AROUNDU_URL,
             external: true,
-            bgColor: "#f472c4",
-            textColor: "#111111",
+            bgColor: "#FF4438",
+            textColor: "#ffffff",
           }}
         />
 
         <QuoteManifestoSection
           id="manifesto"
           quoteLines={[
-            "WE WANT PUNE TO",
-            "REMEMBER US FOR",
-            "MORE THAN MILES",
+            "SHOW UP ONCE",
+            "CREATE A LIFETIME",
+            "OF MEMORIES",
           ]}
           subtitleLines={[
-            "More than paces, more than distance, more than the run itself.",
-            "Writing a story that outlasts every Sunday, every season, every era.",
+            "We all have a sport we grew up playing — before life happened.",
+            "Running, football, cricket & weekend plans at Koregaon Park worth waking up for.",
           ]}
         />
       </main>
+
+      <Footer />
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import SquigglyUnderline, {
+  smoothScrollToHref,
   useSquigglyHover,
 } from "@/components/ui/SquigglyUnderline";
 
@@ -34,11 +35,12 @@ export interface NavbarProps {
 const DEFAULT_NAV_ITEMS: NavItem[] = [
   { label: "ABOUT", href: "#about", lineVariant: 0 },
   { label: "RUNS", href: "#runs", lineVariant: 1 },
+  { label: "MANIFESTO", href: "#manifesto", lineVariant: 2 },
   {
     label: "COMMUNITY",
     href: "https://www.instagram.com/fleet.pune/",
     external: true,
-    lineVariant: 2,
+    lineVariant: 3,
   },
 ];
 
@@ -47,7 +49,7 @@ const DEFAULT_ACTION: NavbarAction = {
   href: "https://www.instagram.com/fleet.pune/",
   showIndicator: true,
   external: true,
-  lineVariant: 3,
+  lineVariant: 4,
 };
 
 /**
@@ -62,7 +64,7 @@ export function NavSurface({
 }) {
   return (
     <div
-      className={`bg-white px-5 py-3.5 shadow-[0_1px_2px_rgba(0,0,0,0.03)] flex items-center ${className}`}
+      className={`bg-white px-5 py-3.5 shadow-[0_2px_10px_rgba(0,0,0,0.06)] flex items-center ${className}`}
     >
       {children}
     </div>
@@ -70,7 +72,7 @@ export function NavSurface({
 }
 
 /**
- * Reusable single navigation link item with a unique left-to-right animated squiggly underline.
+ * Reusable single navigation link item with a randomized left-to-right animated squiggly underline.
  */
 export function NavbarLink({
   item,
@@ -88,6 +90,9 @@ export function NavbarLink({
       href={item.href}
       target={isExternal ? "_blank" : undefined}
       rel={isExternal ? "noopener noreferrer" : undefined}
+      onClick={(e) => {
+        if (!isExternal) smoothScrollToHref(e, item.href);
+      }}
       onMouseEnter={hoverHandlers.onMouseEnter}
       onMouseLeave={hoverHandlers.onMouseLeave}
       className="relative inline-flex flex-col items-center text-[11px] font-extrabold tracking-[-0.02em] uppercase text-[#111111]"
@@ -96,7 +101,7 @@ export function NavbarLink({
       <SquigglyUnderline
         pathRef={pathRef}
         variant={resolvedVariant}
-        color="#0033ff"
+        color="#FF4438"
         strokeWidth={11}
         className="absolute -bottom-[6px] left-0 h-[7px] w-full"
       />
@@ -105,7 +110,7 @@ export function NavbarLink({
 }
 
 /**
- * Reusable action button with indicator dot and its own unique squiggly hover line.
+ * Reusable action button with indicator dot and its own randomized squiggly hover line.
  */
 export function NavbarActionButton({
   action,
@@ -127,10 +132,10 @@ export function NavbarActionButton({
       onMouseLeave={hoverHandlers.onMouseLeave}
       className="group inline-flex"
     >
-      <NavSurface className="gap-2 px-4 py-3.5">
+      <NavSurface className="gap-2.5 px-4 py-3.5">
         {action.showIndicator !== false && (
           <span
-            className="w-1.5 h-1.5 rounded-full bg-[#0033ff] transition-transform duration-200 group-hover:scale-125"
+            className="w-1.5 h-1.5 rounded-full bg-[#FF4438] transition-transform duration-200 group-hover:scale-125"
             aria-hidden="true"
           />
         )}
@@ -139,7 +144,7 @@ export function NavbarActionButton({
           <SquigglyUnderline
             pathRef={pathRef}
             variant={resolvedVariant}
-            color="#0033ff"
+            color="#FF4438"
             strokeWidth={11}
             className="absolute -bottom-[6px] left-0 h-[7px] w-full"
           />
@@ -150,18 +155,47 @@ export function NavbarActionButton({
 }
 
 /**
- * Default Fleet Pune brush-script logo mark.
+ * Fleet Pune winged crest logo mark matching the uploaded brand emblem.
  */
-export function BrandLogo({ text = "Fleet Pune" }: { text?: string }) {
+export function BrandLogo({
+  showText = false,
+  text = "FLEET",
+}: {
+  showText?: boolean;
+  text?: string;
+}) {
   return (
-    <span className="font-script text-[28px] md:text-[32px] leading-none text-[#0033ff] inline-block -rotate-6 select-none tracking-tight">
-      {text}
+    <span className="group inline-flex items-center gap-2.5 select-none">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 100 78"
+        fill="none"
+        className="w-10 h-8 md:w-12 md:h-9 text-[#FF4438] transition-transform duration-300 ease-out group-hover:scale-110 drop-shadow-[0_2px_12px_rgba(255,68,56,0.35)]"
+        role="img"
+        aria-label="Fleet Pune Logo"
+      >
+        {/* Left Wing (Stylized F) */}
+        <path
+          d="M48.4 73V32.5C48.4 23.2 42.8 19.8 35.5 17.1L4 5.5L11.6 22.8L31.8 34.2L15.8 29.6L22.6 42.2L48.4 73Z"
+          fill="currentColor"
+        />
+        {/* Right Wing (Mirrored Stylized F) */}
+        <path
+          d="M51.6 73V32.5C51.6 23.2 57.2 19.8 64.5 17.1L96 5.5L88.4 22.8L68.2 34.2L84.2 29.6L77.4 42.2L51.6 73Z"
+          fill="currentColor"
+        />
+      </svg>
+      {showText && (
+        <span className="font-sans font-black text-[15px] tracking-[-0.04em] uppercase text-[#F5F3EF]">
+          {text}
+        </span>
+      )}
     </span>
   );
 }
 
 /**
- * Reusable top navigation bar with left brand, centered link island, and right CTA island.
+ * Reusable top navigation bar permanently fixed across the entire page.
  */
 export default function Navbar({
   brand = <BrandLogo />,
@@ -178,6 +212,7 @@ export default function Navbar({
       <Link
         href={brandHref}
         aria-label="Fleet Pune Home"
+        onClick={(e) => smoothScrollToHref(e, brandHref)}
         className="pointer-events-auto inline-flex items-center focus:outline-none"
       >
         {brand}

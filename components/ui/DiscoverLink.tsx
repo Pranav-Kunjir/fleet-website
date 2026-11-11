@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import SquigglyUnderline, {
+  smoothScrollToHref,
   useSquigglyHover,
 } from "@/components/ui/SquigglyUnderline";
 
@@ -15,7 +16,7 @@ export interface DiscoverLinkProps {
 
 export default function DiscoverLink({
   label = "Join the fleet",
-  href = "https://www.instagram.com/fleet.pune/",
+  href = "#about",
   external,
   lineVariant = 0,
   className = "",
@@ -28,6 +29,9 @@ export default function DiscoverLink({
       href={href}
       target={isExternal ? "_blank" : undefined}
       rel={isExternal ? "noopener noreferrer" : undefined}
+      onClick={(e) => {
+        if (!isExternal) smoothScrollToHref(e, href);
+      }}
       onMouseEnter={hoverHandlers.onMouseEnter}
       onMouseLeave={hoverHandlers.onMouseLeave}
       className={`group inline-flex items-start gap-2.5 text-[#111111] focus:outline-none ${className}`}
@@ -41,15 +45,15 @@ export default function DiscoverLink({
           pathRef={pathRef}
           variant={lineVariant}
           alwaysVisible
-          color="#0033ff"
+          color="#FF4438"
           strokeWidth={9.5}
           className="h-[11px] mt-1.5"
         />
       </span>
 
-      {/* Royal blue square button with downward arrow */}
+      {/* Fleet Coral-Red square button with downward arrow */}
       <span
-        className="w-[22px] h-[22px] bg-[#0033ff] text-white inline-flex items-center justify-center mt-0.5 transition-transform duration-200 group-hover:translate-y-0.5"
+        className="w-[22px] h-[22px] bg-[#FF4438] text-white inline-flex items-center justify-center mt-0.5 transition-transform duration-200 group-hover:translate-y-0.5"
         aria-hidden="true"
       >
         <svg
@@ -62,7 +66,7 @@ export default function DiscoverLink({
           <path
             d="M6 2V9.5M6 9.5L2.5 6M6 9.5L9.5 6"
             stroke="currentColor"
-            strokeWidth="1.6"
+            strokeWidth="1.8"
             strokeLinecap="square"
           />
         </svg>

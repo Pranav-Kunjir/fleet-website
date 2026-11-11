@@ -13,33 +13,36 @@ export interface AboutSectionProps {
   descriptionLines?: string[];
   collage?: InteractiveCollageProps;
   cta?: SlideArrowButtonProps;
+  secondaryCta?: SlideArrowButtonProps;
 }
 
 export default function AboutSection({
   id = "about",
-  eyebrow = "Who we are",
-  headingSans = "THE RUNNERS OF",
+  eyebrow = "Why we started Fleet",
+  headingSans = "BEYOND SPORTS AT",
   headingSerif = "FLEET PUNE",
   descriptionLines = [
-    "No pressure, no pace gatekeeping. We are",
-    "a Pune run club built on movement and coffee.",
-    "Show up once, before you even overthink it.",
+    "We all have a sport we grew up playing — then life happens,",
+    "and you stop finding the people to play that sport with.",
+    "Fleet is here to fix your weekend plan holes across running, football & cricket.",
+    "Come alone or with a friend — showing up might create a lifetime of memories.",
   ],
   collage,
   cta,
+  secondaryCta,
 }: AboutSectionProps) {
   return (
     <section
       id={id}
-      className="w-full py-20 md:py-28 px-5 sm:px-8 lg:px-12 bg-[#f3f3f1] overflow-hidden"
+      className="relative w-full py-24 md:py-32 px-5 sm:px-8 lg:px-12 bg-transparent text-[#111111] overflow-x-clip"
     >
-      <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+      <div className="relative z-10 max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
         {/* Left Column: Interactive Polaroid & Sticker Collage */}
         <div className="lg:col-span-6 w-full">
           <InteractiveCollage {...collage} />
         </div>
 
-        {/* Right Column: Editorial Typography & Split Blue Action Button */}
+        {/* Right Column: Editorial Typography & Split Coral-Red Action Button */}
         <div className="lg:col-span-6 flex flex-col items-center text-center px-2 sm:px-6">
           {/* Serif Eyebrow */}
           <p className="font-serif text-[26px] sm:text-[32px] md:text-[36px] leading-none tracking-[-0.015em] text-[#111111] mb-3">
@@ -57,7 +60,7 @@ export default function AboutSection({
           </h2>
 
           {/* Centered Body Paragraph */}
-          <p className="font-sans text-[14.5px] sm:text-[15.5px] leading-[1.55] tracking-[-0.01em] text-[#1a1a1a] max-w-[430px] mt-5 mb-7">
+          <p className="font-sans text-[14.5px] sm:text-[15.5px] leading-[1.6] tracking-[-0.01em] text-[#1a1a1a] max-w-[480px] mt-5 mb-7">
             {descriptionLines.map((line, index) => (
               <span key={index} className="block">
                 {line}
@@ -65,8 +68,11 @@ export default function AboutSection({
             ))}
           </p>
 
-          {/* Royal Blue Split Arrow Button */}
-          <SlideArrowButton {...cta} />
+          {/* Action Buttons (WhatsApp + AroundU) */}
+          <div className="flex flex-wrap items-center justify-center gap-3.5">
+            <SlideArrowButton {...cta} />
+            {secondaryCta && <SlideArrowButton {...secondaryCta} />}
+          </div>
         </div>
       </div>
     </section>
