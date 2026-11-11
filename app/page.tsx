@@ -47,7 +47,7 @@ const HERO_FRAMES: CursorFrameItem[] = [
   },
   {
     id: "fleet-frame-2",
-    alt: "Koregaon Park 7 AM 3K community run",
+    alt: "7 AM 3K community run",
     imageSrc:
       "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&w=800&q=80",
   },
@@ -169,7 +169,7 @@ export default function Home() {
           id="runs"
           eyebrowLines={[
             "Come alone or with a friend, leave with a lot of memories.",
-            "From our 7:00 AM Koregaon Park 3K to multi-sport weekends.",
+            "From early morning 3K runs to multi-sport weekends across Pune.",
           ]}
           headingSans="RECENT"
           headingSerif="EVENTS"
@@ -192,7 +192,7 @@ export default function Home() {
           ]}
           subtitleLines={[
             "We all have a sport we grew up playing — before life happened.",
-            "Running, football, cricket & weekend plans at Koregaon Park worth waking up for.",
+            "Running, football, cricket & weekend plans across Pune worth waking up for.",
           ]}
         />
       </main>

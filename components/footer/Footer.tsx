@@ -76,9 +76,9 @@ const DEFAULT_NAV_LINKS: FooterLinkItem[] = [
 ];
 
 const DEFAULT_MEETUP_LINES: string[] = [
-  "Waghiskar Garden",
-  "Koregaon Park",
-  "Pune · 7:00 AM",
+  "Across Pune",
+  "Every weekend",
+  "7:00 AM start",
 ];
 
 const DEFAULT_CONTACT_LINKS: FooterLinkItem[] = [
@@ -129,7 +129,7 @@ export default function Footer({
   brandTitle = "Fleet Pune",
   navigationLinks = DEFAULT_NAV_LINKS,
   meetupLines = DEFAULT_MEETUP_LINES,
-  meetupMapHref = "https://maps.google.com/?q=Waghiskar+Garden+Koregaon+Park+Pune",
+  meetupMapHref = "https://maps.google.com/?q=Pune,+Maharashtra",
   contactLinks = DEFAULT_CONTACT_LINKS,
   socialLinks = DEFAULT_SOCIAL_LINKS,
   bottomLinks = DEFAULT_BOTTOM_LINKS,

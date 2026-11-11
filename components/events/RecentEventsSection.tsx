@@ -38,8 +38,8 @@ export const DEFAULT_RECENT_EVENTS: EventSlideItem[] = [
     cursorText: "VIEW EVENT →",
   },
   {
-    id: "koregaon-coffee-rave",
-    title: "KP COFFEE RUN",
+    id: "coffee-run-pace-hangout",
+    title: "COFFEE RUN",
     subtitle: "5K PACE + SPECIALTY BREW HANGOUT",
     frameColor: "#0038ff",
     imageSrc:
