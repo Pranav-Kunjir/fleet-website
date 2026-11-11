@@ -264,7 +264,7 @@ export default function Footer({
         {/* Bottom Legal Bar */}
         <div className="w-full h-px bg-white/15" />
         <div className="py-5 flex flex-col sm:flex-row items-center justify-between gap-4 font-serif text-[15px] text-white/60">
-          <div>© {new Date().getFullYear()} Fleet Pune</div>
+          <div>© 2026 Fleet Pune</div>
 
           <div className="flex items-center gap-8">
             {bottomLinks.map((item, idx) => (
