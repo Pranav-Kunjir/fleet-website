@@ -307,13 +307,13 @@ export default function RecentEventsSection({
       <div
         ref={pinRef}
         data-featured-stack-pin=""
-        className="sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-between pt-20 pb-8 sm:pt-24 sm:pb-10 px-4 sm:px-8"
+        className="sticky top-0 h-[100svh] sm:h-screen w-full overflow-hidden flex flex-col items-center justify-center sm:justify-between gap-7 sm:gap-0 pt-16 pb-6 sm:pt-24 sm:pb-10 px-4 sm:px-8"
       >
         {/* Floating Cursor Pill Marquee when hovering an event card */}
         <div
           ref={cursorPillRef}
           aria-hidden="true"
-          className={`pointer-events-none absolute left-0 top-0 z-50 transition-opacity duration-200 ${
+          className={`hidden sm:block pointer-events-none absolute left-0 top-0 z-50 transition-opacity duration-200 ${
             hoveredCursorText ? "opacity-100" : "opacity-0"
           }`}
         >
@@ -326,16 +326,17 @@ export default function RecentEventsSection({
         </div>
 
         {/* Top Editorial Eyebrow + Mixed Display Heading */}
-        <div className="flex flex-col items-center text-center z-20">
-          <p className="font-serif text-[20px] sm:text-[25px] md:text-[29px] leading-[1.06] tracking-[-0.01em] text-white/95 mb-2 sm:mb-3">
+        <div className="flex flex-col items-center text-center z-20 px-2">
+          <p className="font-serif text-[18px] sm:text-[25px] md:text-[29px] leading-[1.12] sm:leading-[1.06] tracking-[-0.01em] text-white/95 mb-2.5 sm:mb-3 max-w-[330px] sm:max-w-none">
             {eyebrowLines.map((line, index) => (
-              <span key={index} className="block">
+              <span key={index} className="inline sm:block">
                 {line}
+                {index < eyebrowLines.length - 1 ? " " : ""}
               </span>
             ))}
           </p>
 
-          <h2 className="inline-flex items-baseline gap-[0.22em] uppercase text-[11vw] sm:text-[68px] md:text-[86px] lg:text-[102px] leading-[0.86]">
+          <h2 className="inline-flex items-baseline gap-[0.22em] uppercase text-[12.5vw] sm:text-[68px] md:text-[86px] lg:text-[102px] leading-[0.86]">
             <span className="font-sans font-black tracking-[-0.045em]">
               {headingSans}
             </span>
@@ -346,7 +347,7 @@ export default function RecentEventsSection({
         </div>
 
         {/* Center 3D Stacked Event Cards */}
-        <div className="relative w-full max-w-[660px] aspect-[16/9.6] my-auto flex items-center justify-center z-20 pt-6">
+        <div className="relative w-full max-w-[660px] aspect-[4/3.1] sm:aspect-[16/9.6] sm:my-auto flex items-center justify-center z-20 pt-5 sm:pt-6">
           <div
             ref={stackRootRef}
             data-featured-stack-root=""
@@ -403,13 +404,13 @@ export default function RecentEventsSection({
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
 
                       {/* Event Title at Bottom Center */}
-                      <div className="absolute inset-x-0 bottom-4 sm:bottom-6 px-4 flex flex-col items-center text-center">
+                      <div className="absolute inset-x-0 bottom-3.5 sm:bottom-6 px-3 sm:px-4 flex flex-col items-center text-center">
                         {event.subtitle && (
-                          <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.12em] uppercase text-white/80 mb-1">
+                          <span className="text-[9px] sm:text-[11px] font-bold tracking-[0.1em] sm:tracking-[0.12em] uppercase text-white/85 mb-1">
                             {event.subtitle}
                           </span>
                         )}
-                        <h3 className="font-sans font-black uppercase text-white text-[26px] sm:text-[40px] md:text-[50px] leading-[0.92] tracking-[-0.04em] drop-shadow-sm">
+                        <h3 className="font-sans font-black uppercase text-white text-[21px] sm:text-[40px] md:text-[50px] leading-[0.94] sm:leading-[0.92] tracking-[-0.04em] drop-shadow-sm">
                           {event.title}
                         </h3>
                       </div>

@@ -144,31 +144,54 @@ export default function Footer({
         <div className="w-full h-px bg-white/15" />
 
         {/* Main Footer Content */}
-        <div className="py-14 md:py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start">
+        <div className="py-10 sm:py-14 md:py-20 grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-8 items-start">
           {/* Left: Large Tilted Script Signature + Winged Emblem */}
-          <div className="lg:col-span-6 flex items-center pt-2 md:pt-4 md:pl-8">
+          <div className="lg:col-span-6 flex items-center justify-between lg:justify-start pt-1 md:pt-4 md:pl-8">
             <Link
               href="/"
               onClick={(e) => smoothScrollToHref(e, "/")}
               aria-label="Scroll to top"
-              className="group inline-flex items-center gap-5 focus:outline-none"
+              className="group inline-flex items-center gap-4 sm:gap-5 focus:outline-none"
             >
               <BrandLogo />
-              <span className="font-script text-[54px] sm:text-[72px] md:text-[86px] leading-none text-white -rotate-6 inline-block tracking-tight transition-colors duration-300 group-hover:text-[#FF4438]">
+              <span className="font-script text-[44px] sm:text-[72px] md:text-[86px] leading-none text-white -rotate-6 inline-block tracking-tight transition-colors duration-300 group-hover:text-[#FF4438]">
                 {brandTitle}
               </span>
             </Link>
+
+            {/* Mobile Scroll-to-Top Button */}
+            <button
+              type="button"
+              onClick={() =>
+                window.scrollTo({ top: 0, behavior: "smooth" })
+              }
+              aria-label="Back to top"
+              className="sm:hidden group relative w-8 h-8 bg-[#2c2c30] text-white inline-flex items-center justify-center overflow-hidden shrink-0 cursor-pointer"
+            >
+              <span className="absolute inset-0 bg-[#FF4438] translate-y-full transition-transform duration-300 ease-out group-hover:translate-y-0" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 15 16"
+                fill="none"
+                className="relative z-10 w-3.5 h-3.5 transition-colors duration-300 group-hover:text-[#0a0a0c]"
+              >
+                <path
+                  d="M14.7835 9.48099L11.3653 6.86942L7.88099 4.15207L8.84628 2.02314L8.84628 16L5.93719 16L5.93719 2.02314L6.90248 4.15207L3.41818 6.86942L-2.84955e-07 9.48099L-4.51997e-07 5.65951L7.39173 -3.23103e-07L14.7835 5.65951L14.7835 9.48099Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </button>
           </div>
 
-          {/* Right: 3 Columns (Navigation, Contact, Socials) + Scroll Top Button */}
-          <div className="lg:col-span-6 flex items-start justify-between gap-8">
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-10 sm:gap-12 md:gap-16 flex-1">
+          {/* Right: 3 Columns (Navigation, Contact, Socials) + Desktop Scroll Top Button */}
+          <div className="lg:col-span-6 flex items-start justify-between gap-6 sm:gap-8">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-8 sm:gap-12 md:gap-16 flex-1">
               {/* Column 1: Navigation */}
               <div className="flex flex-col">
-                <h3 className="font-sans font-black uppercase text-[13px] tracking-[-0.02em] text-white mb-4">
+                <h3 className="font-sans font-black uppercase text-[12px] sm:text-[13px] tracking-[-0.02em] text-white mb-3 sm:mb-4">
                   NAVIGATION
                 </h3>
-                <div className="flex flex-col gap-2 font-serif text-[20px] md:text-[22px] leading-[1.25]">
+                <div className="flex flex-col gap-2 font-serif text-[18px] sm:text-[20px] md:text-[22px] leading-[1.25]">
                   {navigationLinks.map((item, idx) => (
                     <FooterHoverLink
                       key={item.label}
@@ -181,10 +204,10 @@ export default function Footer({
 
               {/* Column 2: Contact / Meetup Spot */}
               <div className="flex flex-col">
-                <h3 className="font-sans font-black uppercase text-[13px] tracking-[-0.02em] text-white mb-4">
+                <h3 className="font-sans font-black uppercase text-[12px] sm:text-[13px] tracking-[-0.02em] text-white mb-3 sm:mb-4">
                   CONTACT
                 </h3>
-                <div className="flex flex-col gap-4 font-serif text-[20px] md:text-[22px] leading-[1.25]">
+                <div className="flex flex-col gap-3.5 sm:gap-4 font-serif text-[18px] sm:text-[20px] md:text-[22px] leading-[1.25]">
                   <a
                     href={meetupMapHref}
                     target="_blank"
@@ -207,7 +230,7 @@ export default function Footer({
                     />
                   </a>
 
-                  <div className="flex flex-col gap-2 pt-1">
+                  <div className="flex flex-col gap-2 pt-1 break-all sm:break-normal">
                     {contactLinks.map((item, idx) => (
                       <FooterHoverLink
                         key={item.label}
@@ -220,11 +243,11 @@ export default function Footer({
               </div>
 
               {/* Column 3: Socials */}
-              <div className="flex flex-col">
-                <h3 className="font-sans font-black uppercase text-[13px] tracking-[-0.02em] text-white mb-4">
+              <div className="flex flex-col col-span-2 sm:col-span-1">
+                <h3 className="font-sans font-black uppercase text-[12px] sm:text-[13px] tracking-[-0.02em] text-white mb-3 sm:mb-4">
                   SOCIALS
                 </h3>
-                <div className="flex flex-col gap-2 font-serif text-[20px] md:text-[22px] leading-[1.25]">
+                <div className="flex flex-row sm:flex-col gap-6 sm:gap-2 font-serif text-[18px] sm:text-[20px] md:text-[22px] leading-[1.25]">
                   {socialLinks.map((item, idx) => (
                     <FooterHoverLink
                       key={item.label}
@@ -236,14 +259,14 @@ export default function Footer({
               </div>
             </div>
 
-            {/* Far Right: Scroll-to-Top Square Button */}
+            {/* Far Right: Desktop Scroll-to-Top Square Button */}
             <button
               type="button"
               onClick={() =>
                 window.scrollTo({ top: 0, behavior: "smooth" })
               }
               aria-label="Back to top"
-              className="group relative w-7 h-7 bg-[#2c2c30] text-white inline-flex items-center justify-center overflow-hidden shrink-0 mt-0.5 cursor-pointer"
+              className="hidden sm:inline-flex group relative w-7 h-7 bg-[#2c2c30] text-white items-center justify-center overflow-hidden shrink-0 mt-0.5 cursor-pointer"
             >
               <span className="absolute inset-0 bg-[#FF4438] translate-y-full transition-transform duration-300 ease-out group-hover:translate-y-0" />
               <svg

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import SquigglyUnderline, {
   smoothScrollToHref,
   useSquigglyHover,
@@ -77,9 +77,11 @@ export function NavSurface({
 export function NavbarLink({
   item,
   variant = 0,
+  onNavigate,
 }: {
   item: NavItem;
   variant?: number;
+  onNavigate?: () => void;
 }) {
   const isExternal = item.external ?? item.href.startsWith("http");
   const resolvedVariant = item.lineVariant ?? variant;
@@ -92,6 +94,7 @@ export function NavbarLink({
       rel={isExternal ? "noopener noreferrer" : undefined}
       onClick={(e) => {
         if (!isExternal) smoothScrollToHref(e, item.href);
+        onNavigate?.();
       }}
       onMouseEnter={hoverHandlers.onMouseEnter}
       onMouseLeave={hoverHandlers.onMouseLeave}
@@ -132,14 +135,14 @@ export function NavbarActionButton({
       onMouseLeave={hoverHandlers.onMouseLeave}
       className="group inline-flex"
     >
-      <NavSurface className="gap-2.5 px-4 py-3.5">
+      <NavSurface className="gap-2 sm:gap-2.5 px-3.5 py-2.5 sm:px-4 sm:py-3.5">
         {action.showIndicator !== false && (
           <span
             className="w-1.5 h-1.5 rounded-full bg-[#FF4438] transition-transform duration-200 group-hover:scale-125"
             aria-hidden="true"
           />
         )}
-        <span className="relative inline-flex flex-col items-center text-[11px] font-extrabold tracking-[-0.02em] uppercase text-[#111111]">
+        <span className="relative inline-flex flex-col items-center text-[10.5px] sm:text-[11px] font-extrabold tracking-[-0.02em] uppercase text-[#111111]">
           <span className="relative z-10">{action.label}</span>
           <SquigglyUnderline
             pathRef={pathRef}
@@ -170,7 +173,7 @@ export function BrandLogo({
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 100 78"
         fill="none"
-        className="w-10 h-8 md:w-12 md:h-9 text-[#FF4438] transition-transform duration-300 ease-out group-hover:scale-110 drop-shadow-[0_2px_12px_rgba(255,68,56,0.35)]"
+        className="w-9 h-7 sm:w-10 sm:h-8 md:w-12 md:h-9 text-[#FF4438] transition-transform duration-300 ease-out group-hover:scale-110 drop-shadow-[0_2px_12px_rgba(255,68,56,0.35)]"
         role="img"
         aria-label="Fleet Pune Logo"
       >
@@ -204,43 +207,79 @@ export default function Navbar({
   action = DEFAULT_ACTION,
   className = "",
 }: NavbarProps) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
     <header
-      className={`fixed top-0 left-0 right-0 w-full px-6 py-5 md:px-8 md:py-6 flex items-center justify-between z-50 pointer-events-none ${className}`}
+      className={`fixed top-0 left-0 right-0 w-full px-4 py-3.5 sm:px-6 sm:py-5 md:px-8 md:py-6 flex flex-col z-50 pointer-events-none ${className}`}
     >
-      {/* Left: Brand Logo */}
-      <Link
-        href={brandHref}
-        aria-label="Fleet Pune Home"
-        onClick={(e) => smoothScrollToHref(e, brandHref)}
-        className="pointer-events-auto inline-flex items-center focus:outline-none"
-      >
-        {brand}
-      </Link>
-
-      {/* Center: Navigation Links Box */}
-      {items.length > 0 && (
-        <nav
-          aria-label="Primary Navigation"
-          className="pointer-events-auto hidden sm:block absolute left-1/2 -translate-x-1/2"
+      <div className="w-full flex items-center justify-between relative">
+        {/* Left: Brand Logo */}
+        <Link
+          href={brandHref}
+          aria-label="Fleet Pune Home"
+          onClick={(e) => {
+            smoothScrollToHref(e, brandHref);
+            setMobileMenuOpen(false);
+          }}
+          className="pointer-events-auto inline-flex items-center focus:outline-none"
         >
-          <NavSurface className="gap-5 md:gap-6 px-5 py-3.5">
-            {items.map((item, idx) => (
-              <NavbarLink
-                key={item.href + item.label}
-                item={item}
-                variant={idx}
-              />
-            ))}
-          </NavSurface>
-        </nav>
-      )}
+          {brand}
+        </Link>
 
-      {/* Right: Action / Join Us Button */}
-      {action && (
-        <div className="pointer-events-auto inline-flex">
-          <NavbarActionButton action={action} variant={items.length} />
+        {/* Center: Desktop Navigation Links Box (unchanged on sm and above) */}
+        {items.length > 0 && (
+          <nav
+            aria-label="Primary Navigation"
+            className="pointer-events-auto hidden sm:block absolute left-1/2 -translate-x-1/2"
+          >
+            <NavSurface className="gap-5 md:gap-6 px-5 py-3.5">
+              {items.map((item, idx) => (
+                <NavbarLink
+                  key={item.href + item.label}
+                  item={item}
+                  variant={idx}
+                />
+              ))}
+            </NavSurface>
+          </nav>
+        )}
+
+        {/* Right: Action Button + Mobile Menu Button */}
+        <div className="pointer-events-auto flex items-center gap-2">
+          {items.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+              aria-label="Toggle navigation menu"
+              aria-expanded={mobileMenuOpen}
+              className="sm:hidden bg-white px-3 py-2.5 shadow-[0_2px_10px_rgba(0,0,0,0.06)] text-[10.5px] font-extrabold tracking-[-0.02em] uppercase text-[#111111] flex items-center gap-1.5"
+            >
+              <span>{mobileMenuOpen ? "CLOSE" : "MENU"}</span>
+            </button>
+          )}
+
+          {action && (
+            <NavbarActionButton action={action} variant={items.length} />
+          )}
         </div>
+      </div>
+
+      {/* Mobile Dropdown Navigation Pill (< 640px only) */}
+      {mobileMenuOpen && items.length > 0 && (
+        <nav
+          aria-label="Mobile Navigation"
+          className="pointer-events-auto sm:hidden mt-2 self-end bg-white px-5 py-4 shadow-[0_8px_24px_rgba(0,0,0,0.12)] flex items-center justify-center gap-5"
+        >
+          {items.map((item, idx) => (
+            <NavbarLink
+              key={item.href + item.label}
+              item={item}
+              variant={idx}
+              onNavigate={() => setMobileMenuOpen(false)}
+            />
+          ))}
+        </nav>
       )}
     </header>
   );

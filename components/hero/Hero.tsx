@@ -132,7 +132,7 @@ export default function Hero({
       ref={heroRef}
       data-cursor-cards=""
       data-cursor-cards-threshold={cursorThreshold}
-      className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 pb-16 pt-24 bg-transparent text-[#111111] select-none overflow-x-clip"
+      className="relative min-h-[92svh] sm:min-h-screen flex flex-col items-center justify-center px-3 sm:px-8 pb-12 sm:pb-16 pt-20 sm:pt-24 bg-transparent text-[#111111] select-none overflow-x-clip"
     >
       {/* Cursor-following image frame that cycles frames as cursor moves */}
       <CursorImageFrame
@@ -143,7 +143,7 @@ export default function Hero({
 
       <div className="relative w-full max-w-[1360px] mx-auto flex flex-col items-center text-center pointer-events-none">
         {/* Top editorial serif subtitle */}
-        <p className="font-serif text-[26px] sm:text-[34px] md:text-[40px] leading-[1.03] tracking-[-0.015em] text-[#111111] mb-4 md:mb-6 relative z-20">
+        <p className="font-serif text-[21px] sm:text-[34px] md:text-[40px] leading-[1.06] sm:leading-[1.03] tracking-[-0.015em] text-[#111111] mb-4 md:mb-6 relative z-20 px-2">
           {subtitleLines.map((line, index) => (
             <span key={index} className="block">
               {line}
@@ -152,10 +152,10 @@ export default function Hero({
         </p>
 
         {/* Main display typography block sitting in front of the cursor frame */}
-        <div className="relative z-20 inline-flex flex-col items-center">
-          <h1 className="relative flex flex-col items-center text-[#0b0b0b]">
-            {/* Line 1: PUTS PUNE CREW IN */}
-            <span className="relative inline-flex items-baseline whitespace-nowrap font-sans text-[10.8vw] sm:text-[10.5vw] lg:text-[138px] xl:text-[148px] leading-[0.86] tracking-[-0.045em] uppercase">
+        <div className="relative z-20 inline-flex flex-col items-center max-w-full">
+          <h1 className="relative flex flex-col items-center text-[#0b0b0b] max-w-full">
+            {/* Line 1: PUTS PUNE SPORTS IN */}
+            <span className="relative inline-flex items-baseline whitespace-nowrap font-sans text-[9.1vw] sm:text-[10.5vw] lg:text-[138px] xl:text-[148px] leading-[0.88] sm:leading-[0.86] tracking-[-0.045em] uppercase">
               {fullSansLine.split("").map((char, idx) => {
                 const isBoldDefault = idx <= boldBoundary;
                 return (
@@ -177,7 +177,7 @@ export default function Hero({
             </span>
 
             {/* Line 2: MOVEMENT */}
-            <span className="font-serif uppercase text-[11.8vw] sm:text-[11.5vw] lg:text-[152px] xl:text-[166px] leading-[0.84] tracking-[-0.025em] mt-1">
+            <span className="font-serif uppercase text-[13.2vw] sm:text-[11.5vw] lg:text-[152px] xl:text-[166px] leading-[0.86] sm:leading-[0.84] tracking-[-0.025em] mt-1">
               {headlineSerif.split("").map((char, idx) => (
                 <span
                   key={idx}

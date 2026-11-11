@@ -237,7 +237,7 @@ export default function QuoteManifestoSection({
           </div>
 
           {/* 3-Line Display Quote with Very Zoomed Dot-Matrix -> Solid Word-by-Word Morph */}
-          <h2 className="font-condensed font-bold uppercase text-[13.5vw] sm:text-[11.2vw] lg:text-[138px] xl:text-[154px] leading-[0.84] tracking-[-0.01em] whitespace-nowrap">
+          <h2 className="font-condensed font-bold uppercase text-[11.2vw] sm:text-[11.2vw] lg:text-[138px] xl:text-[154px] leading-[0.86] sm:leading-[0.84] tracking-[-0.01em] whitespace-nowrap">
             {parsedLines.map((words, lineIdx) => (
               <span
                 key={lineIdx}
@@ -300,11 +300,12 @@ export default function QuoteManifestoSection({
               opacity: 0,
               transform: "translate3d(-50%, 16px, 0)",
             }}
-            className="font-sans text-[13.5px] sm:text-[15px] md:text-[16px] leading-[1.6] text-[#F5F3EF] absolute top-[calc(100%+2rem)] left-1/2 w-max max-w-[min(34em,88vw)] whitespace-normal will-change-transform"
+            className="font-sans text-[13px] sm:text-[15px] md:text-[16px] leading-[1.55] sm:leading-[1.6] text-[#F5F3EF] absolute top-[calc(100%+1.5rem)] sm:top-[calc(100%+2rem)] left-1/2 w-[88vw] sm:w-max max-w-[min(34em,88vw)] whitespace-normal will-change-transform"
           >
             {subtitleLines.map((line, idx) => (
-              <span key={idx} className="block">
+              <span key={idx} className="inline sm:block">
                 {line}
+                {idx < subtitleLines.length - 1 ? " " : ""}
               </span>
             ))}
           </p>
